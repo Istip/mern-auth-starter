@@ -65,9 +65,22 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get currently logged in user data
+// @route /api/users/me
+// @access PRIVATE
+const getMe = asyncHandler(async (req, res) => {
+  const user = {
+    id: req.user._id,
+    email: req.user.email,
+    name: req.user.name,
+  };
+
+  res.status(200).json(user);
+});
+
 // Generate token function
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, getMe };
